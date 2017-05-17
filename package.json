@@ -9,6 +9,7 @@
     "listr": "^0.12.0"
   },
   "scripts": {
+    "prepublish" : "rm -f bundle.js && npm build",
     "build": "rollup -c"
   },
   "devDependencies": {

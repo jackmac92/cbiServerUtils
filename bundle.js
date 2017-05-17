@@ -8,8 +8,8 @@ var boto = _interopDefault(require('aws-sdk'));
 var fetch = _interopDefault(require('isomorphic-fetch'));
 var Listr = _interopDefault(require('listr'));
 
-const getServerIps = (cfg, env, boxType) =>
-  new Promise((resolve, reject) => {
+function getServerIps(cfg, env, boxType) {
+  return new Promise((resolve, reject) => {
     const { searchkey: searchKey, searchvalue: searchVal } = cfg[env][boxType];
     const ec2Params = {
       Filters: [
@@ -37,7 +37,7 @@ const getServerIps = (cfg, env, boxType) =>
       }
     });
   });
-
+}
 const CBI_ENV_LOCATION = 'http://s3.amazonaws.com/cbi-wiki/cbi-env.json';
 
 const getAwsConfig = () =>
@@ -46,7 +46,12 @@ const getAwsConfig = () =>
     headers: {
       Accept: 'application/json'
     }
-  }).then(res => res.json());
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.log('FAILED TO GET AWS CONFIG');
+      throw err;
+    });
 
 const listrTask = {
   title: 'Get Server Ips',
@@ -90,5 +95,6 @@ const getManyServers = (envs, servers) =>
       .catch(err => console.log(err))
   );
 
+exports.getServerIps = getServerIps;
 exports.listrTask = listrTask;
 exports.getManyServers = getManyServers;

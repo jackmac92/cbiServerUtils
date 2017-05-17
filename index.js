@@ -2,8 +2,8 @@ import boto from 'aws-sdk';
 import fetch from 'isomorphic-fetch';
 import Listr from 'listr';
 
-export const getServerIps = (cfg, env, boxType) =>
-  new Promise((resolve, reject) => {
+export function getServerIps(cfg, env, boxType) {
+  return new Promise((resolve, reject) => {
     const { searchkey: searchKey, searchvalue: searchVal } = cfg[env][boxType];
     const ec2Params = {
       Filters: [
@@ -31,7 +31,7 @@ export const getServerIps = (cfg, env, boxType) =>
       }
     });
   });
-
+}
 const CBI_ENV_LOCATION = 'http://s3.amazonaws.com/cbi-wiki/cbi-env.json';
 
 const getAwsConfig = () =>

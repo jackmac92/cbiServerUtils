@@ -40,7 +40,12 @@ const getAwsConfig = () =>
     headers: {
       Accept: 'application/json'
     }
-  }).then(res => res.json());
+  })
+    .then(res => res.json())
+    .catch(err => {
+      console.log('FAILED TO GET AWS CONFIG');
+      throw err;
+    });
 
 export const listrTask = {
   title: 'Get Server Ips',

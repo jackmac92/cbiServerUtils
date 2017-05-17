@@ -1,0 +1,17 @@
+{
+  "name": "cbiServerUtils",
+  "version": "1.0.1",
+  "main": "bundle.js",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.52.0",
+    "isomorphic-fetch": "^2.2.1",
+    "listr": "^0.12.0"
+  },
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "rollup": "^0.41.6"
+  }
+}

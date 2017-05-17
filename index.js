@@ -3,6 +3,11 @@ import fetch from 'isomorphic-fetch';
 import Listr from 'listr';
 
 export function getServerIps(cfg, env, boxType) {
+  console.log('Starting');
+  console.log('Starting');
+  console.log('Starting');
+  console.log('Starting');
+  console.log('Starting');
   return new Promise((resolve, reject) => {
     const { searchkey: searchKey, searchvalue: searchVal } = cfg[env][boxType];
     const ec2Params = {
@@ -67,6 +72,9 @@ export const listrTask = {
       }
     ])
 };
+
+export const getServersByRole = (env, boxType) =>
+  getAwsConfig().then(cfg => getServerIps(cfg, env, boxType));
 
 export const getManyServers = (envs, servers) =>
   getAwsConfig().then(cfg =>

@@ -1,4 +1,4 @@
-import { listrTask as getServerIps } from 'cbiServerUtils';
+import { listrTask as getServerIps } from './';
 import { exec } from 'shelljs';
 import Listr from 'listr';
 
@@ -13,67 +13,40 @@ const runCmdOnServer = (ip, cmd) =>
     })
   );
 
-const getServerLogs = ip =>
-  runCmdOnServer(ip, 'ls').catch(err => console.log('failed cmd', ip));
-// runCmdOnServer(ip, 'grep -ri 1735808 /var/log/upstart/*').catch(err =>
+const getServerLogs = (ip, term = 1735808) => runCmdOnServer(ip, `ls`);
+// runCmdOnServer(ip, `sudo grep -iA2 "${term}" /var/log/upstart/*`);
+const searchLogs = {
+  title: 'Search server logs',
+  task: ctx =>
+    new Listr(
+      ctx.serverIps.map(ip => ({
+        title: `Searching logs on ${ip}`,
+        task: ctx =>
+          getServerLogs(ip).then(logs => logs && ctx.results.push(logs))
+      })),
+      { concurrent: true }
+    )
+};
 
-new Listr([
-  getServerIps,
-  {
-    title: 'Search server logs',
-    task: ctx =>
-      Promise.all(ctx.serverIps.map(getServerLogs)).then(results => {
-        ctx.results = results;
-      })
-  }
-])
+new Listr()
+  .add(getServerIps)
+  .add(searchLogs)
   .run({
     env: 'prod',
-    servers: 'api'
+    servers: 'api',
+    results: []
   })
-  .then(({ results }) => console.log(results));
+  .then(({ results }) => console.log(results))
+  .catch(err => {
+    console.log('There was an error');
+    console.log(err);
+  });
 
-// getServerIps(['prod'], ['api'])
-//   .then(serverMap => Promise.all(serverMap.api.prod.map(getServerLogs)))
-//   .then(outputs => {
-//     console.log(outputs);
-//   });
-
-const spinnerOptions = [
-  'dots', // up to dots12
-  'line', //2
-  'pipe',
-  'simpleDots',
-  'simpleDotsScrolling',
-  'star',
-  'star2',
-  'flip',
-  'hamburger',
-  'growVertical',
-  'growHorizontal',
-  'balloon', //2
-  'noise',
-  'bounce',
-  'boxBounce', // 2
-  'triangle',
-  'arc',
-  'circle',
-  'squareCorners',
-  'circleQuarters',
-  'circleHalves',
-  'squish',
-  'toggle', // up to toggle13
-  'arrow', //3
-  'bouncingBar',
-  'bouncingBall',
-  'smiley',
-  'monkey',
-  'hearts',
-  'clock',
-  'earth',
-  'moon',
-  'runner',
-  'pong',
-  'shark',
-  'dqpb'
-];
+// const spinnerOptions = [
+//   'dots', // up to dots12
+//   'toggle', // up to toggle13
+//   'line', // 2
+//   'balloon', //2
+//   'boxBounce', // 2
+//   'arrow', //3
+//   'pipe', 'simpleDots', 'simpleDotsScrolling', 'star', 'star2', 'flip', 'hamburger', 'growVertical', 'growHorizontal', 'noise', 'bounce', 'triangle', 'arc', 'circle', 'squareCorners', 'circleQuarters', 'circleHalves', 'squish', 'bouncingBar', 'bouncingBall', 'smiley', 'monkey', 'hearts', 'clock', 'earth', 'moon', 'runner', 'pong', 'shark', 'dqpb'];

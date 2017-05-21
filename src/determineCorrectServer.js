@@ -1,5 +1,5 @@
 import shell from 'shelljs';
-import { getServersByRole } from 'cbiServerUtils';
+import { getServersByRole } from './index';
 
 // const cmd = `ssh ${ip} "test -e ${picPath}"`;
 export const serverTestCall = (ip, serverTest) =>
@@ -16,7 +16,7 @@ const checkServer = (ip, serverTest) =>
 const pickServer = (ips, serverTest) =>
   Promise.any(ips.map(ip => checkServer(ip, serverTest)));
 
-export default (env, boxType, serverTest) =>
+export const determineCorrectServer = (env, boxType, serverTest) =>
   getServersByRole(env, boxType).then(
     ips => (ips.length === 1 ? ips[0] : pickServer(ips, serverTest))
   );

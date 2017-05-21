@@ -47,6 +47,6 @@ export const getManyServers = (envs, servers) =>
       .catch(err => console.log(err))
   );
 export { getAwsConfig, getServerIps };
-export getFileFromServer from './getFileFromServer';
-export downloadS3Task from './downloadS3';
-export determineCorrectServer from './determineCorrectServer';
+export { getFileFromServer } from './getFileFromServer';
+export { downloadS3Task } from './downloadS3';
+export { determineCorrectServer } from './determineCorrectServer';

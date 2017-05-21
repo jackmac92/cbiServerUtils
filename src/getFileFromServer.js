@@ -1,11 +1,22 @@
-import { pinkyExec } from '../index';
+import { exec } from 'shelljs';
 
-export default (ip, remotePath, localDest, recursive = false) => {
+export const getFileFromServer = (
+  ip,
+  remotePath,
+  localDest,
+  recursive = false
+) => {
   const cmd = ['scp'];
   if (recursive) {
     cmd.push('-r');
   }
   cmd.push(`ubuntu@${ip}:${remotePath}`);
   cmd.push(localDest);
-  return pinkyExec(`${cmd.join(' ')}`);
+  return new Promise((resolve, reject) => {
+    exec(
+      `${cmd.join(' ')}`,
+      { async: true },
+      (code, res, err) => (code === 0 ? resolve(res) : reject(err))
+    );
+  });
 };

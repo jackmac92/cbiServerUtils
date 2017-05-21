@@ -22,7 +22,7 @@ const downloadScreenshot = (Key, tmpDir = 0) =>
     );
   });
 
-const listrTask = {
+export const downloadS3Task = {
   title: 'Download Test Screenshots',
   task: ctx =>
     new Listr(
@@ -33,4 +33,4 @@ const listrTask = {
       { concurrent: true }
     )
 };
-export default listrTask;
+

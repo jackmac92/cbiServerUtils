@@ -6,7 +6,7 @@ import Listr from 'listr';
 const s3 = new aws.S3();
 
 const downloadScreenshot = (Key, tmpDir = 0) =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve, reject) =>
     s3.getObject(
       {
         Bucket: 'cbi-test-screenshots',
@@ -19,8 +19,8 @@ const downloadScreenshot = (Key, tmpDir = 0) =>
         fs.writeFileSync(filePath, res.Body);
         resolve(filePath);
       }
-    );
-  });
+    )
+  );
 
 export const downloadS3Task = {
   title: 'Download Test Screenshots',
@@ -33,4 +33,3 @@ export const downloadS3Task = {
       { concurrent: true }
     )
 };
-

@@ -12,11 +12,11 @@ export const getFileFromServer = (
   }
   cmd.push(`ubuntu@${ip}:${remotePath}`);
   cmd.push(localDest);
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) =>
     exec(
       `${cmd.join(' ')}`,
       { async: true },
       (code, res, err) => (code === 0 ? resolve(res) : reject(err))
-    );
-  });
+    )
+  );
 };

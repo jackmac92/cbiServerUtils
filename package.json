@@ -10,7 +10,9 @@
     "shelljs": "^0.7.7"
   },
   "scripts": {
-    "prepublish": "rm -f bundle.js && npm run build && echo 'BUILT'",
+    "prepublish": "npm run build",
+    "postpublish": "git add bundle.js && git commit -m 'Post Publish Build Commit'",
+    "prebuild": "rm -f bundle.js",
     "build": "rollup -c"
   },
   "devDependencies": {

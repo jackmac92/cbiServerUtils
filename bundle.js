@@ -1,9 +1,16 @@
-import Listr from 'listr';
-import fetch from 'isomorphic-fetch';
-import boto from 'aws-sdk';
-import shell, { exec } from 'shelljs';
-import path from 'path';
-import fs from 'fs';
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var Listr = _interopDefault(require('listr'));
+var fetch = _interopDefault(require('isomorphic-fetch'));
+var boto = _interopDefault(require('aws-sdk'));
+var shell = require('shelljs');
+var shell__default = _interopDefault(shell);
+var path = _interopDefault(require('path'));
+var fs = _interopDefault(require('fs'));
 
 const CBI_ENV_LOCATION = 'http://s3.amazonaws.com/cbi-wiki/cbi-env.json';
 
@@ -63,7 +70,7 @@ const getFileFromServer = (
   cmd.push(`ubuntu@${ip}:${remotePath}`);
   cmd.push(localDest);
   return new Promise((resolve, reject) =>
-    exec(
+    shell.exec(
       `${cmd.join(' ')}`,
       { async: true },
       (code, res, err) => (code === 0 ? resolve(res) : reject(err))
@@ -106,7 +113,7 @@ const downloadS3Task = {
 const serverTestCall = (ip, serverTest) =>
   new Promise((resolve, reject) => {
     const cmd = `ssh ${ip} "${serverTest}"`;
-    shell.exec(cmd, { silent: true }, code => {
+    shell__default.exec(cmd, { silent: true }, code => {
       code === 0 ? resolve(ip) : reject();
     });
   });
@@ -167,4 +174,11 @@ const getManyServers = (envs, servers) =>
       .catch(err => console.log(err))
   );
 
-export { listrTask, getServersByRole, getManyServers, getAwsConfig, getServerIps, getFileFromServer, downloadS3Task, determineCorrectServer$$1 as determineCorrectServer };
+exports.listrTask = listrTask;
+exports.getServersByRole = getServersByRole;
+exports.getManyServers = getManyServers;
+exports.getAwsConfig = getAwsConfig;
+exports.getServerIps = getServerIps;
+exports.getFileFromServer = getFileFromServer;
+exports.downloadS3Task = downloadS3Task;
+exports.determineCorrectServer = determineCorrectServer$$1;

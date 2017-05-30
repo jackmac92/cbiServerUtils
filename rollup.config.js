@@ -1,6 +1,6 @@
 export default {
   dest: 'bundle.js',
-  format: 'es',
+  format: 'cjs',
   entry: 'src/index.js',
   external: ['listr', 'isomorphic-fetch', 'aws-sdk', 'shelljs', 'path', 'fs']
 };

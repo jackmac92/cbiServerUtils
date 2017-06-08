@@ -11,9 +11,10 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "postpublish": "git add bundle.js && git commit -m 'Post Publish Build Commit'",
+    "postpublish": "git commit -m 'Post Publish Build Commit' || echo 'no change'",
     "prebuild": "rm -f bundle.js",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "postbuild":  "git add bundle.js"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

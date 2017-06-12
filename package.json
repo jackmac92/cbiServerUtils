@@ -12,7 +12,6 @@
   "scripts": {
     "prepublish": "npm run build",
     "postpublish": "git commit -m 'Post Publish Build Commit' || echo 'no change'",
-    "prebuild": "rm -f bundle.js",
     "build": "rollup -c",
     "postbuild":  "git add bundle.js"
   },

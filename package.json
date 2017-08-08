@@ -1,6 +1,6 @@
 {
   "name": "cbiServerUtils",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "main": "bundle.js",
   "license": "MIT",
   "dependencies": {
@@ -13,7 +13,7 @@
     "prepublish": "npm run build",
     "postpublish": "git commit -m 'Post Publish Build Commit' || echo 'no change'",
     "build": "rollup -c",
-    "postbuild":  "git add bundle.js"
+    "postbuild": "git add bundle.js"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

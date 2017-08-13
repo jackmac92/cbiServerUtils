@@ -32,7 +32,9 @@ export const getManyServers = (envs, servers) =>
       envs.reduce(
         (accum, env) => [
           ...accum,
-          ...servers.map(server => getServerIps(cfg, env, server))
+          ...servers
+            .map(server => getServerIps(cfg, env, server).catch(() => null))
+            .filter(a => a !== null)
         ],
         []
       )

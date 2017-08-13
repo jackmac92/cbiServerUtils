@@ -160,14 +160,18 @@ const getManyServers = (envs, servers) =>
         (accum, env) => [
           ...accum,
           ...servers.map(server =>
-            getServerIps(cfg, env, server).catch(() => null)
+            getServerIps(cfg, env, server).catch(() => ({
+              env,
+              server,
+              ips: []
+            }))
           )
         ],
         []
       )
     )
       .then(allIps =>
-        allIps.filter(a => a).reduce((accum, { server, env, ips }) => {
+        allIps.reduce((accum, { server, env, ips }) => {
           accum[server] = accum[server] || {};
           accum[server][env] = ips;
           return accum;
